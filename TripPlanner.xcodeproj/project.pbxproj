@@ -16,6 +16,8 @@
 		3CD49EFA2BC492FA0038C823 /* TripPlannerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CD49EF92BC492FA0038C823 /* TripPlannerTests.swift */; };
 		3CD49F042BC492FA0038C823 /* TripPlannerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CD49F032BC492FA0038C823 /* TripPlannerUITests.swift */; };
 		3CD49F062BC492FA0038C823 /* TripPlannerUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CD49F052BC492FA0038C823 /* TripPlannerUITestsLaunchTests.swift */; };
+		3CD49F132BC4AB840038C823 /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CD49F122BC4AB840038C823 /* Service.swift */; };
+		3CD49F152BC4AC340038C823 /* CitySearchTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CD49F142BC4AC340038C823 /* CitySearchTableViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +51,8 @@
 		3CD49EFF2BC492FA0038C823 /* TripPlannerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TripPlannerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3CD49F032BC492FA0038C823 /* TripPlannerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripPlannerUITests.swift; sourceTree = "<group>"; };
 		3CD49F052BC492FA0038C823 /* TripPlannerUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripPlannerUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		3CD49F122BC4AB840038C823 /* Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
+		3CD49F142BC4AC340038C823 /* CitySearchTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CitySearchTableViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,6 +110,8 @@
 				3CD49EEB2BC492FA0038C823 /* Assets.xcassets */,
 				3CD49EED2BC492FA0038C823 /* LaunchScreen.storyboard */,
 				3CD49EF02BC492FA0038C823 /* Info.plist */,
+				3CD49F122BC4AB840038C823 /* Service.swift */,
+				3CD49F142BC4AC340038C823 /* CitySearchTableViewController.swift */,
 			);
 			path = TripPlanner;
 			sourceTree = "<group>";
@@ -259,6 +265,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				3CD49EE72BC492F80038C823 /* ViewController.swift in Sources */,
+				3CD49F132BC4AB840038C823 /* Service.swift in Sources */,
+				3CD49F152BC4AC340038C823 /* CitySearchTableViewController.swift in Sources */,
 				3CD49EE32BC492F80038C823 /* AppDelegate.swift in Sources */,
 				3CD49EE52BC492F80038C823 /* SceneDelegate.swift in Sources */,
 			);
