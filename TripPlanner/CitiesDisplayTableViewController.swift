@@ -9,6 +9,8 @@ import UIKit
 
 class CitiesDisplayTableViewController: UITableViewController {
 
+    var places = [String]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -22,14 +24,19 @@ class CitiesDisplayTableViewController: UITableViewController {
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 0
-    }
+            return 1 // Assuming you have one section
+        }
 
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return 0
-    }
+        override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+            return places.count // The number of rows is equal to the number of places
+        }
+
+        override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "DisplayCell", for: indexPath)
+            let place = places[indexPath.row]
+            cell.textLabel?.text = place // Set the cell text to the place name
+            return cell
+        }
 
     /*
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -85,5 +92,17 @@ class CitiesDisplayTableViewController: UITableViewController {
         // Pass the selected object to the new view controller.
     }
     */
-
+    // This assumes you have a segue or some method to navigate to CitySearchTableViewController
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "CitiesToCitySearch", let citySearchVC = segue.destination as? CitySearchTableViewController {
+            citySearchVC.delegate = self
+        }
+    }
+}
+// In CitiesDisplayTableViewController.swift
+extension CitiesDisplayTableViewController: CityDetailsViewControllerDelegate {
+    func didSavePlaces(_ places: [String]) {
+        self.places = places
+        tableView.reloadData()
+    }
 }

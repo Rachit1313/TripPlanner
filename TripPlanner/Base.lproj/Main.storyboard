@@ -25,42 +25,10 @@
                             </connections>
                         </searchBar>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="gSw-mU-IQs">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="DisplayCell" id="gSw-mU-IQs">
                                 <rect key="frame" x="0.0" y="94" width="428" height="43.666667938232422"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="gSw-mU-IQs" id="Wtg-q7-uqp">
-                                    <rect key="frame" x="0.0" y="0.0" width="428" height="43.666667938232422"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </tableViewCellContentView>
-                            </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="WSh-3J-Go0">
-                                <rect key="frame" x="0.0" y="137.66666793823242" width="428" height="43.666667938232422"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="WSh-3J-Go0" id="c1g-O6-BLe">
-                                    <rect key="frame" x="0.0" y="0.0" width="428" height="43.666667938232422"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </tableViewCellContentView>
-                            </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="Mav-FP-URQ">
-                                <rect key="frame" x="0.0" y="181.33333587646484" width="428" height="43.666667938232422"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Mav-FP-URQ" id="noe-Gm-hBi">
-                                    <rect key="frame" x="0.0" y="0.0" width="428" height="43.666667938232422"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </tableViewCellContentView>
-                            </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="WRT-zG-ovh">
-                                <rect key="frame" x="0.0" y="225.00000381469727" width="428" height="43.666667938232422"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="WRT-zG-ovh" id="kLB-tg-h8k">
-                                    <rect key="frame" x="0.0" y="0.0" width="428" height="43.666667938232422"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </tableViewCellContentView>
-                            </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="dvj-5X-JTr">
-                                <rect key="frame" x="0.0" y="268.66667175292969" width="428" height="43.666667938232422"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="dvj-5X-JTr" id="OhA-zJ-qA9">
                                     <rect key="frame" x="0.0" y="0.0" width="428" height="43.666667938232422"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableViewCellContentView>
@@ -74,7 +42,7 @@
                     <navigationItem key="navigationItem" title="Cities" id="FgM-1l-175">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="YZd-3Z-RyM">
                             <connections>
-                                <segue destination="I5V-58-3yR" kind="show" id="llS-qh-O5a"/>
+                                <segue destination="I5V-58-3yR" kind="show" identifier="CitiesToCitySearch" id="llS-qh-O5a"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -169,7 +137,11 @@
                     </view>
                     <navigationItem key="navigationItem" id="E0o-2S-dve">
                         <barButtonItem key="leftBarButtonItem" title="Cancel" id="33h-IG-bmr"/>
-                        <barButtonItem key="rightBarButtonItem" title="Save" id="IRX-nN-afs"/>
+                        <barButtonItem key="rightBarButtonItem" title="Save" id="IRX-nN-afs">
+                            <connections>
+                                <action selector="saveButtonTapped:" destination="VwI-te-Pgw" id="7k2-Es-6eM"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="tableView" destination="sxD-Si-hZM" id="40T-mt-Yvj"/>

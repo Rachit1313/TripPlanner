@@ -15,6 +15,8 @@ class CityDetailsViewController: UIViewController, UITableViewDataSource {
     @IBOutlet weak var textField: UITextField!
     @IBOutlet weak var tableView: UITableView!
     
+    weak var delegate: CityDetailsViewControllerDelegate?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         print("City Name: \(cityName ?? "nil")")
@@ -43,6 +45,12 @@ class CityDetailsViewController: UIViewController, UITableViewDataSource {
             return cell
         }
     
+    @IBAction func saveButtonTapped(_ sender: UIBarButtonItem) {
+        delegate?.didSavePlaces(places)
+        navigationController?.popToRootViewController(animated: true)
+    }
+
+    
 
     /*
     // MARK: - Navigation
@@ -54,4 +62,9 @@ class CityDetailsViewController: UIViewController, UITableViewDataSource {
     }
     */
 
+}
+
+protocol CityDetailsViewControllerDelegate: AnyObject {
+    func didSavePlaces(_ places: [String])
+    
 }

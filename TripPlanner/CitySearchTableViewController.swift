@@ -10,7 +10,7 @@ import UIKit
 class CitySearchTableViewController: UITableViewController, UISearchResultsUpdating {
 
     
-    
+    weak var delegate: CityDetailsViewControllerDelegate?
     var cities = [String]()
     var filteredCities = [String]()
     let searchController = UISearchController(searchResultsController: nil)
@@ -112,7 +112,12 @@ class CitySearchTableViewController: UITableViewController, UISearchResultsUpdat
             let cityNameBeforeComma = selectedCity.components(separatedBy: ",").first?.trimmingCharacters(in: .whitespaces)
             destinationVC.cityName = cityNameBeforeComma
         }
+        
+        if segue.identifier == "showCityDetails", let cityDetailsVC = segue.destination as? CityDetailsViewController {
+            cityDetailsVC.delegate = delegate
+        }
     }
+
 
     /*
     // Override to support conditional editing of the table view.
