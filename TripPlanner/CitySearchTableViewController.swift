@@ -102,6 +102,17 @@ class CitySearchTableViewController: UITableViewController, UISearchResultsUpdat
             return cell
         }
     
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "showCityDetails",
+           let destinationVC = segue.destination as? CityDetailsViewController,
+           let indexPath = tableView.indexPathForSelectedRow {
+            let selectedCity = searchController.isActive ? filteredCities[indexPath.row] : cities[indexPath.row]
+            // Split the selectedCity using the comma as a delimiter and take the first part
+            let cityNameBeforeComma = selectedCity.components(separatedBy: ",").first?.trimmingCharacters(in: .whitespaces)
+            destinationVC.cityName = cityNameBeforeComma
+        }
+    }
 
     /*
     // Override to support conditional editing of the table view.
