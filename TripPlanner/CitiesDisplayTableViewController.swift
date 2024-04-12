@@ -7,7 +7,7 @@
 
 import UIKit
 
-class CitiesDsiplayTableViewController: UITableViewController {
+class CitiesDisplayTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
