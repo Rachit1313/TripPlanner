@@ -46,12 +46,17 @@ class CityDetailsViewController: UIViewController, UITableViewDataSource {
         }
     
     @IBAction func saveButtonTapped(_ sender: UIBarButtonItem) {
-        delegate?.didSavePlaces(places)
+        if let cityName = self.cityName {
+                delegate?.didSavePlaces(for: cityName, places: places)
+            }
         navigationController?.popToRootViewController(animated: true)
     }
 
     
-
+    @IBAction func cancelButtonTapped(_ sender: Any) {
+        navigationController?.popToRootViewController(animated: true)
+    }
+    
     /*
     // MARK: - Navigation
 
@@ -65,6 +70,7 @@ class CityDetailsViewController: UIViewController, UITableViewDataSource {
 }
 
 protocol CityDetailsViewControllerDelegate: AnyObject {
-    func didSavePlaces(_ places: [String])
+    func didSavePlaces(for city: String, places: [String])
+
     
 }

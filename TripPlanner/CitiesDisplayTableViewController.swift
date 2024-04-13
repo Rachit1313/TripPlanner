@@ -9,7 +9,8 @@ import UIKit
 
 class CitiesDisplayTableViewController: UITableViewController {
 
-    var places = [String]()
+    var cities = [String]() // This array will store the list of cities
+    var todoPlaces = [String: [String]]() // Dictionary to store places for each city
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,15 +29,18 @@ class CitiesDisplayTableViewController: UITableViewController {
         }
 
         override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-            return places.count // The number of rows is equal to the number of places
+            return cities.count // The number of rows is equal to the number of places
         }
 
         override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
             let cell = tableView.dequeueReusableCell(withIdentifier: "DisplayCell", for: indexPath)
-            let place = places[indexPath.row]
-            cell.textLabel?.text = place // Set the cell text to the place name
-            return cell
+                cell.textLabel?.text = cities[indexPath.row]
+                return cell
         }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+ 
+    }
 
     /*
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -92,17 +96,27 @@ class CitiesDisplayTableViewController: UITableViewController {
         // Pass the selected object to the new view controller.
     }
     */
+    
     // This assumes you have a segue or some method to navigate to CitySearchTableViewController
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "CitiesToCitySearch", let citySearchVC = segue.destination as? CitySearchTableViewController {
             citySearchVC.delegate = self
         }
+        else if segue.identifier == "displayToDetails", let destinationVC = segue.destination as? CityDetailsViewController, let indexPath = tableView.indexPathForSelectedRow {
+                let selectedCity = cities[indexPath.row]
+                destinationVC.cityName = selectedCity
+                destinationVC.places = todoPlaces[selectedCity] ?? []
+                destinationVC.delegate = self // Ensure CityDetailsViewController can pass data back
+            }
     }
 }
 // In CitiesDisplayTableViewController.swift
 extension CitiesDisplayTableViewController: CityDetailsViewControllerDelegate {
-    func didSavePlaces(_ places: [String]) {
-        self.places = places
-        tableView.reloadData()
-    }
+    func didSavePlaces(for city: String, places: [String]) {
+            if !cities.contains(city) {
+                cities.append(city) // Append the new city to the array if it's not already there
+            }
+            todoPlaces[city] = places
+            tableView.reloadData() // Refresh the table view to display the new data
+        }
 }

@@ -117,7 +117,10 @@ class CitySearchTableViewController: UITableViewController, UISearchResultsUpdat
             cityDetailsVC.delegate = delegate
         }
     }
-
+    
+    @IBAction func cancelButtonTapped(_ sender: Any) {
+        navigationController?.popToRootViewController(animated: true)
+    }
 
     /*
     // Override to support conditional editing of the table view.

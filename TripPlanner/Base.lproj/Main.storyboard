@@ -32,6 +32,9 @@
                                     <rect key="frame" x="0.0" y="0.0" width="428" height="43.666667938232422"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <segue destination="VwI-te-Pgw" kind="show" identifier="displayToDetails" id="JLK-hB-760"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -78,13 +81,17 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" id="CCt-tG-PqF">
-                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="SII-2p-lqZ"/>
+                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="SII-2p-lqZ">
+                            <connections>
+                                <action selector="cancelButtonTapped:" destination="I5V-58-3yR" id="AKS-vI-TY6"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Save" id="AoC-Xd-LcM"/>
                     </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4Tr-dP-SRa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2308" y="-276"/>
+            <point key="canvasLocation" x="2299" y="-584"/>
         </scene>
         <!--City Details View Controller-->
         <scene sceneID="7yu-Rj-VdQ">
@@ -136,7 +143,11 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="E0o-2S-dve">
-                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="33h-IG-bmr"/>
+                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="33h-IG-bmr">
+                            <connections>
+                                <action selector="cancelButtonTapped:" destination="VwI-te-Pgw" id="2aM-2J-Cph"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Save" id="IRX-nN-afs">
                             <connections>
                                 <action selector="saveButtonTapped:" destination="VwI-te-Pgw" id="7k2-Es-6eM"/>
@@ -171,6 +182,9 @@
             <point key="canvasLocation" x="540.57971014492762" y="-277.17391304347831"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="faJ-QV-O6a"/>
+    </inferredMetricsTieBreakers>
     <resources>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
