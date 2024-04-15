@@ -13,6 +13,7 @@ class CitiesDisplayTableViewController: UITableViewController, UISearchResultsUp
     var todoPlaces = [String: [String]]() // Dictionary to store places for each city
     var filteredCities = [String]() // Array to hold search results
     let searchController = UISearchController(searchResultsController: nil)
+    var weatherData = [String: WeatherResult]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,6 +24,51 @@ class CitiesDisplayTableViewController: UITableViewController, UISearchResultsUp
         searchController.searchBar.placeholder = "Search Cities"
         navigationItem.searchController = searchController
         definesPresentationContext = true
+        
+        fetchWeatherForAllCities()
+    }
+    
+    func fetchWeatherForAllCities() {
+        cities.forEach { city in
+            fetchWeather(for: city)
+        }
+    }
+    
+    func fetchWeather(for city: String) {
+        print("fetch function called for " + city)
+        let apiKey = "d1b122163b84a6185bda2808a0dc8f3d"
+        let urlString = "https://api.openweathermap.org/data/2.5/weather?q=\(city)&appid=\(apiKey)&units=metric"
+        guard let url = URL(string: urlString) else { return }
+        print(url)
+        URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
+            guard let self = self else { return }
+            
+            if let error = error {
+                DispatchQueue.main.async {
+                    print("Error fetching weather: \(error.localizedDescription)")
+                }
+                return
+            }
+            
+            guard let data = data else {
+                DispatchQueue.main.async {
+                    print("No data received")
+                }
+                return
+            }
+            
+            do {
+                let weatherResult = try JSONDecoder().decode(WeatherResult.self, from: data)
+                DispatchQueue.main.async {
+                    self.weatherData[city] = weatherResult
+                    self.tableView.reloadData()
+                }
+            } catch {
+                DispatchQueue.main.async {
+                    print("JSON decoding error: \(error.localizedDescription)")
+                }
+            }
+        }.resume()
     }
 
     // MARK: - UISearchResultsUpdating Delegate
@@ -57,16 +103,26 @@ class CitiesDisplayTableViewController: UITableViewController, UISearchResultsUp
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "DisplayCell", for: indexPath)
-        let city: String
-        if isFiltering {
-            city = filteredCities[indexPath.row]
-        } else {
-            city = cities[indexPath.row]
+            let cell = tableView.dequeueReusableCell(withIdentifier: "DisplayCell", for: indexPath)
+            let city: String
+            if isFiltering {
+                city = filteredCities[indexPath.row]
+            } else {
+                city = cities[indexPath.row]
+            }
+            cell.textLabel?.text = city
+
+            // Configure the cell with weather data if available
+            if let weatherResult = weatherData[city] {
+                let temp = weatherResult.main.temp
+                cell.detailTextLabel?.text = "\(temp)°C"
+                // Optionally, fetch and set the weather icon here
+            } else {
+                cell.detailTextLabel?.text = "Loading..."
+            }
+
+            return cell
         }
-        cell.textLabel?.text = city
-        return cell
-    }
 
     // MARK: - Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -92,8 +148,10 @@ extension CitiesDisplayTableViewController: CityDetailsViewControllerDelegate {
     func didSavePlaces(for city: String, places: [String]) {
         if !cities.contains(city) {
             cities.append(city) // Append the new city to the array if it's not already there
+            
         }
         todoPlaces[city] = places
+        fetchWeatherForAllCities()
         tableView.reloadData() // Refresh the table view to display the new data
     }
 }
