@@ -14,6 +14,7 @@ class CitiesDisplayTableViewController: UITableViewController, UISearchResultsUp
     var filteredCities = [String]() // Array to hold search results
     let searchController = UISearchController(searchResultsController: nil)
     var weatherData = [String: WeatherResult]()
+    let iconCache = NSCache<NSString, UIImage>()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,10 +35,37 @@ class CitiesDisplayTableViewController: UITableViewController, UISearchResultsUp
         }
     }
     
+    func fetchIcon(named iconName: String, completion: @escaping (UIImage?) -> Void) {
+        if let cachedImage = iconCache.object(forKey: iconName as NSString) {
+            completion(cachedImage)
+            return
+        }
+        
+        let urlString = "https://openweathermap.org/img/wn/\(iconName)@2x.png"
+        guard let url = URL(string: urlString) else {
+            completion(nil)
+            return
+        }
+        
+        URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
+            guard let data = data, let image = UIImage(data: data) else {
+                DispatchQueue.main.async {
+                    completion(nil)
+                }
+                return
+            }
+            
+            self?.iconCache.setObject(image, forKey: iconName as NSString)
+            DispatchQueue.main.async {
+                completion(image)
+            }
+        }.resume()
+    }
+    
     func fetchWeather(for city: String) {
         print("fetch function called for " + city)
         let apiKey = "d1b122163b84a6185bda2808a0dc8f3d"
-        let urlString = "https://api.openweathermap.org/data/2.5/weather?q=\(city)&appid=\(apiKey)&units=metric"
+        let urlString = "https://api.openweathermap.org/data/2.5/weather?q=\(city)&appid=\(apiKey)"
         guard let url = URL(string: urlString) else { return }
         print(url)
         URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
@@ -103,26 +131,34 @@ class CitiesDisplayTableViewController: UITableViewController, UISearchResultsUp
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "DisplayCell", for: indexPath)
-            let city: String
-            if isFiltering {
-                city = filteredCities[indexPath.row]
-            } else {
-                city = cities[indexPath.row]
-            }
-            cell.textLabel?.text = city
-
-            // Configure the cell with weather data if available
-            if let weatherResult = weatherData[city] {
-                let temp = weatherResult.main.temp
-                cell.detailTextLabel?.text = "\(temp)°C"
-                // Optionally, fetch and set the weather icon here
-            } else {
-                cell.detailTextLabel?.text = "Loading..."
-            }
-
-            return cell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "DisplayCell", for: indexPath)
+        let city: String
+        if isFiltering {
+            city = filteredCities[indexPath.row]
+        } else {
+            city = cities[indexPath.row]
         }
+        cell.textLabel?.text = city
+
+        // Configure the cell with weather data if available
+        if let weatherResult = weatherData[city] {
+            let temp = weatherResult.main.temp
+            cell.detailTextLabel?.text = "\(temp)"
+            
+            if let iconName = weatherResult.weather.first?.icon {
+                fetchIcon(named: iconName) { icon in
+                    guard let icon = icon else { return }
+                    cell.imageView?.image = icon
+                    cell.layoutSubviews() // Ensure the cell updates its layout to accommodate the icon
+                }
+            }
+        } else {
+            cell.detailTextLabel?.text = "Loading..."
+            cell.imageView?.image = nil
+        }
+
+        return cell
+    }
 
     // MARK: - Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
